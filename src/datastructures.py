@@ -7,6 +7,7 @@ update this file to implement the following already declared methods:
 - get_member: Should return a member from the self._members list
 """
 from random import randint
+from flask import jsonify
 
 class FamilyStructure:
     def __init__(self, last_name):
@@ -39,11 +40,18 @@ class FamilyStructure:
 
     def add_member(self, member):
         # fill this method and update the return
-        pass
+        for element in self._members:
+            if element["id"] == member["id"]:
+                return jsonify({"msg": "Este miembro ya existe"}),409
+        self._members.append(member)
+        return jsonify(self._members),200
 
     def delete_member(self, id):
         # fill this method and update the return
-        pass
+        for member in self._members:
+            if member["id"] == id:
+                self._members.remove(member)
+                return {"done":True}
 
     def get_member(self, id):
         # fill this method and update the return
